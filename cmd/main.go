@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"github.com/kamva/mgm/v3"
-	"github.com/wonpanu/learn-golang/pkg/http/rest"
+	rest "github.com/wonpanu/learn-golang/pkg/http"
 	"github.com/wonpanu/learn-golang/pkg/repo"
 	"github.com/wonpanu/learn-golang/pkg/usecase"
 	"go.mongodb.org/mongo-driver/mongo/options"
