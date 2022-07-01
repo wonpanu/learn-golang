@@ -17,7 +17,10 @@ type BlogHandler struct {
 func (b *BlogHandler) GetAll(c *fiber.Ctx) error {
 	blogs, err := b.blogUsecase.GetAll()
 	if err != nil {
-		return err
+		return c.Status(fiber.StatusBadRequest).JSON(Response{
+			Status: "error",
+			Data:   err.Error(),
+		})
 	}
 	return c.Status(fiber.StatusBadRequest).JSON(Response{
 		Status: "ok",
