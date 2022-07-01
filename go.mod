@@ -6,6 +6,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.34.1
 	github.com/joho/godotenv v1.4.0
 	github.com/kamva/mgm/v3 v3.4.1
+	github.com/streadway/amqp v1.0.0
 	go.mongodb.org/mongo-driver v1.7.0
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )

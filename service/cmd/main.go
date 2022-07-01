@@ -9,6 +9,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"github.com/kamva/mgm/v3"
+	"github.com/streadway/amqp"
+	"github.com/wonpanu/learn-golang/amqputil"
 	rest "github.com/wonpanu/learn-golang/service/pkg/handler"
 	"github.com/wonpanu/learn-golang/service/pkg/repo"
 	"github.com/wonpanu/learn-golang/service/pkg/usecase"
@@ -18,6 +20,7 @@ import (
 func main() {
 	fmt.Println("Welcome to Blog API!")
 	godotenv.Load(".env")
+
 	apiPortRaw := os.Getenv("API_PORT")
 	apiPort, err := strconv.Atoi(apiPortRaw)
 	if err != nil {
@@ -44,8 +47,39 @@ func main() {
 		log.Fatal(err)
 	}
 
+	amqpHost := os.Getenv("AMQP_HOST")
+	amqpPortRaw := os.Getenv("AMQP_PORT")
+	amqpUsername := os.Getenv("AMQP_USERNAME")
+	amqpPassword := os.Getenv("AMQP_PASSWORD")
+	blogQueueName := os.Getenv("LOG_API_QUEUE_NAME")
+	amqpQueueName := map[string]string{
+		"blog": blogQueueName,
+	}
+
+	amqpPort, err := strconv.Atoi(amqpPortRaw)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	amqpURI := fmt.Sprintf("amqp://%s:%s@%s:%d/", amqpUsername, amqpPassword, amqpHost, amqpPort)
+	fmt.Println("rabbitMQ URI:", amqpURI)
+
+	amqpConn, amqpCh, _ := amqputil.CreatePublisherConnection(amqpURI, blogQueueName)
+	amqpCloseNotify := amqpConn.NotifyClose(make(chan *amqp.Error))
+	defer func() {
+		amqpCh.Close()
+		amqpConn.Close()
+	}()
+
+	go func() {
+		for err := range amqpCloseNotify {
+			log.Println("Rabbit MQ connection lost", err)
+			os.Exit(1)
+		}
+	}()
+
 	blogCollection := mgm.CollectionByName("blogs")
-	blogRepo := repo.NewBlogRepo(blogCollection)
+	blogRepo := repo.NewBlogRepo(blogCollection, amqpCh, amqpQueueName)
 	blogUsecase := usecase.NewBlogUsecase(blogRepo)
 	blogHandler := rest.NewBlogHandler(blogUsecase)
 
