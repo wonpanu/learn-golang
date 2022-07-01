@@ -2,7 +2,7 @@ package repo
 
 import (
 	"github.com/kamva/mgm/v3"
-	"github.com/wonpanu/learn-golang/pkg/entity"
+	"github.com/wonpanu/learn-golang/service/pkg/entity"
 	"gopkg.in/mgo.v2/bson"
 )
 

@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/wonpanu/learn-golang/pkg/entity"
-	"github.com/wonpanu/learn-golang/pkg/repo"
+	"github.com/wonpanu/learn-golang/service/pkg/entity"
+	"github.com/wonpanu/learn-golang/service/pkg/repo"
 )
 
 type BlogUsecase struct {

@@ -2,7 +2,7 @@ package rest
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/wonpanu/learn-golang/pkg/usecase"
+	"github.com/wonpanu/learn-golang/service/pkg/usecase"
 )
 
 type Response struct {
