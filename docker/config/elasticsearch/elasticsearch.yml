@@ -1,0 +1,17 @@
+cluster.name: es_dev_cluster
+node.name: "es_dev_node_1"
+node.master: true
+node.data: true
+index.number_of_shards: 5
+index.number_of_replicas: 0
+bootstrap.mlockall: true
+
+script.inline: on
+script.indexed: on
+
+http.cors.enabled: true
+http.cors.allow-origin: /.*/
+http.cors.allow-credentials: true
+
+threadpool.bulk.queue_size: 5000
+threadpool.index.queue_size: 5000

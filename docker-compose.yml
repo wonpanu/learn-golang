@@ -31,3 +31,26 @@ services:
         max-size: "50m"
         max-file: "10"
     restart: "always"
+
+  elasticsearch:
+    container_name: go_learn_elasticsearch
+    build:
+      context: .
+      dockerfile: ./elasticsearch.Dockerfile
+    ports:
+      - 9200:9200
+    volumes:
+      - ./docker/config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "10"
+    restart: "always"
+
+  sense:
+    container_name: go_learn_sense
+    image: wisesight/sense
+    ports:
+      - 8888:80
+    restart: "always"
