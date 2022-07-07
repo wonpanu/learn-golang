@@ -11,7 +11,7 @@ type BlogUsecase struct {
 	blogRepo repo.BlogRepo
 }
 
-func (b *BlogUsecase) GetAll() (blogs []entity.Blog, err error) {
+func (b BlogUsecase) GetAll() (blogs []entity.Blog, err error) {
 	blogs, err = b.blogRepo.GetAll()
 	if err != nil {
 		return blogs, err

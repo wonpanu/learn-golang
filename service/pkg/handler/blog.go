@@ -1,4 +1,4 @@
-package rest
+package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -14,7 +14,7 @@ type BlogHandler struct {
 	blogUsecase usecase.BlogUsecase
 }
 
-func (b *BlogHandler) GetAll(c *fiber.Ctx) error {
+func (b BlogHandler) GetAll(c *fiber.Ctx) error {
 	blogs, err := b.blogUsecase.GetAll()
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(Response{

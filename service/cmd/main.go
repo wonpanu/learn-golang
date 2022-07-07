@@ -11,7 +11,7 @@ import (
 	"github.com/kamva/mgm/v3"
 	"github.com/streadway/amqp"
 	"github.com/wonpanu/learn-golang/amqputil"
-	rest "github.com/wonpanu/learn-golang/service/pkg/handler"
+	"github.com/wonpanu/learn-golang/service/pkg/handler"
 	"github.com/wonpanu/learn-golang/service/pkg/repo"
 	"github.com/wonpanu/learn-golang/service/pkg/usecase"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -81,12 +81,12 @@ func main() {
 	blogCollection := mgm.CollectionByName("blogs")
 	blogRepo := repo.NewBlogRepo(blogCollection, amqpCh, amqpQueueName)
 	blogUsecase := usecase.NewBlogUsecase(blogRepo)
-	blogHandler := rest.NewBlogHandler(blogUsecase)
+	blogHandler := handler.NewBlogHandler(blogUsecase)
 
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(rest.Response{
+		return c.Status(fiber.StatusOK).JSON(handler.Response{
 			Status: "ok",
 			Data:   "Welcome to Blog API!",
 		})
