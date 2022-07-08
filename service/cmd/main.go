@@ -78,6 +78,10 @@ func main() {
 		}
 	}()
 
+	bahRamRepo := repo.NewBahRamRepo()
+	bahRamUsecase := usecase.NewBahRamUsecase(bahRamRepo)
+	bahRamHandler := handler.NewBahRamHandler(bahRamUsecase)
+
 	blogCollection := mgm.CollectionByName("blogs")
 	blogRepo := repo.NewBlogRepo(blogCollection, amqpCh, amqpQueueName)
 	blogUsecase := usecase.NewBlogUsecase(blogRepo)
@@ -91,6 +95,11 @@ func main() {
 			Data:   "Welcome to Blog API!",
 		})
 	})
+
+	// Bah Ram
+	app.Get("/bahram/:n", bahRamHandler.BahRam)
+
+	// Blog API
 	app.Get("/blogs", blogHandler.GetAll)
 	app.Post("/create-blog", blogHandler.CreateBlog)
 	app.Post("/update-blog/:id", blogHandler.UpdateBlog)
