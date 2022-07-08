@@ -92,6 +92,9 @@ func main() {
 		})
 	})
 	app.Get("/blogs", blogHandler.GetAll)
+	app.Post("/create-blog", blogHandler.CreateBlog)
+	app.Post("/update-blog/:id", blogHandler.UpdateBlog)
+	app.Post("/delete-blogs/:id", blogHandler.DeleteBlog)
 
 	err = app.Listen(fmt.Sprintf(":%d", apiPort))
 	if err != nil {
